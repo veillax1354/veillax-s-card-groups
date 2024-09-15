@@ -1,5 +1,7 @@
 blueprint:
   name: Alarmo State Automation with Scripts and Triggered Actions
+  author: Veillax
+  source_url: https://raw.githubusercontent.com/veillax1354/veillax-s-card-groups/main/minimalist-alarm-controls/blueprint.yaml
   description: Automation for handling Alarmo panel states with timer actions, scripts, and triggered actions.
   domain: automation
   input:
