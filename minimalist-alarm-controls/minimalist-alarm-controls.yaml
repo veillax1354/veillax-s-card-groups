@@ -1,0 +1,100 @@
+type: vertical-stack
+cards:
+  - type: entities
+    entities:
+      - type: custom:timer-bar-card
+        entity: timer. # TODO: Set Timer helper entity
+        name: Exit Delay
+        icon: mdi:exit-run
+  - features:
+      - type: alarm-modes
+        modes:
+          - armed_home
+          - armed_away
+          - armed_custom_bypass
+          - disarmed
+    type: tile
+    entity: alarm_control_panel. # TODO: Set Alarm helper entity
+    layout_options:
+      grid_columns: full
+      grid_rows: 2
+    vertical: false
+    hide_state: false
+    show_entity_picture: false
+    state_content:
+      - state
+      - changed_by
+      - last_changed
+    icon_tap_action:
+      action: none
+    tap_action:
+      action: none
+
+  - type: horizontal-stack
+    cards:
+      - show_name: true
+        show_icon: true
+        type: button
+        tap_action:
+          action: perform-action
+          perform_action: alarm_control_panel.alarm_arm_custom_bypass
+          target:
+            entity_id:
+              - alarm_control_panel. # TODO: Set Alarm helper entity
+          data:
+            code: "" # TODO: Set Code
+        entity: alarm_control_panel. # TODO: Set Alarm helper entity
+        layout_options:
+          grid_columns: 1
+          grid_rows: 2
+        name: Arm Silent
+      - show_name: true
+        show_icon: true
+        type: button
+        tap_action:
+          action: perform-action
+          perform_action: alarm_control_panel.alarm_arm_away
+          target:
+            entity_id:
+              - alarm_control_panel. # TODO: Set Alarm helper entity
+          data:
+            code: "" # TODO: Set Code
+        entity: alarm_control_panel. # TODO: Set Alarm helper entity
+        layout_options:
+          grid_columns: 1
+          grid_rows: 2
+        name: Arm Away
+      - show_name: true
+        show_icon: true
+        type: button
+        tap_action:
+          action: perform-action
+          perform_action: alarm_control_panel.alarm_trigger
+          target:
+            entity_id: 
+              - alarm_control_panel. # TODO: Set Alarm helper entity
+          data:
+            code: "" # TODO: Set Code
+        entity: alarm_control_panel. # TODO: Set Alarm helper entity
+        layout_options:
+          grid_columns: 1
+          grid_rows: 2
+        name: Trigger
+      - show_name: true
+        show_icon: true
+        type: button
+        tap_action:
+          action: perform-action
+          perform_action: alarm_control_panel.alarm_disarm
+          target:
+            entity_id:
+              - alarm_control_panel. # TODO: Set Alarm helper entity
+          data:
+            code: "" # TODO: Set Code
+        entity: alarm_control_panel. # TODO: Set Alarm helper entity
+        layout_options:
+          grid_columns: 1
+          grid_rows: 2
+        hold_action:
+          action: none
+        name: Disarm
