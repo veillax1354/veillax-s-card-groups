@@ -14,7 +14,7 @@ cards:
           - armed_custom_bypass
           - disarmed
     type: tile
-    entity: alarm_control_panel. # TODO: Set Alarm helper entity
+    entity: alarm_control_panel. # TODO: Set Alarm entity
     layout_options:
       grid_columns: full
       grid_rows: 2
@@ -40,10 +40,10 @@ cards:
           perform_action: alarm_control_panel.alarm_arm_custom_bypass
           target:
             entity_id:
-              - alarm_control_panel. # TODO: Set Alarm helper entity
+              - alarm_control_panel. # TODO: Set Alarm entity
           data:
             code: "" # TODO: Set Code
-        entity: alarm_control_panel. # TODO: Set Alarm helper entity
+        entity: alarm_control_panel. # TODO: Set Alarm entity
         layout_options:
           grid_columns: 1
           grid_rows: 2
@@ -56,10 +56,10 @@ cards:
           perform_action: alarm_control_panel.alarm_arm_away
           target:
             entity_id:
-              - alarm_control_panel. # TODO: Set Alarm helper entity
+              - alarm_control_panel. # TODO: Set Alarm entity
           data:
             code: "" # TODO: Set Code
-        entity: alarm_control_panel. # TODO: Set Alarm helper entity
+        entity: alarm_control_panel. # TODO: Set Alarm entity
         layout_options:
           grid_columns: 1
           grid_rows: 2
@@ -72,10 +72,10 @@ cards:
           perform_action: alarm_control_panel.alarm_trigger
           target:
             entity_id: 
-              - alarm_control_panel. # TODO: Set Alarm helper entity
+              - alarm_control_panel. # TODO: Set Alarm entity
           data:
             code: "" # TODO: Set Code
-        entity: alarm_control_panel. # TODO: Set Alarm helper entity
+        entity: alarm_control_panel. # TODO: Set Alarm entity
         layout_options:
           grid_columns: 1
           grid_rows: 2
@@ -88,10 +88,10 @@ cards:
           perform_action: alarm_control_panel.alarm_disarm
           target:
             entity_id:
-              - alarm_control_panel. # TODO: Set Alarm helper entity
+              - alarm_control_panel. # TODO: Set Alarm entity
           data:
             code: "" # TODO: Set Code
-        entity: alarm_control_panel. # TODO: Set Alarm helper entity
+        entity: alarm_control_panel. # TODO: Set Alarm entity
         layout_options:
           grid_columns: 1
           grid_rows: 2
