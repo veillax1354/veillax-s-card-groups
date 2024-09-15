@@ -1,0 +1,177 @@
+blueprint:
+  name: Alarmo State Automation with Scripts and Triggered Actions
+  description: Automation for handling Alarmo panel states with timer actions, scripts, and triggered actions.
+  domain: automation
+  input:
+    alarmo_entity:
+      name: Alarmo Panel
+      description: The Alarmo control panel to monitor.
+      selector:
+        entity:
+          domain: alarm_control_panel
+    arming_timer:
+      name: Arming Timer
+      description: Timer to be started/stopped during alarm state changes.
+      selector:
+        entity:
+          domain: timer
+    alarm_arming_script:
+      name: Arming Script
+      description: Script to run when the alarm is arming.
+      selector:
+        entity:
+          domain: script
+    alarm_disarmed_script:
+      name: Disarmed Script
+      description: Script to run when the alarm is disarmed.
+      selector:
+        entity:
+          domain: script
+    alarm_armed_home_script:
+      name: Armed Home Script
+      description: Script to run when the alarm is armed in home mode.
+      selector:
+        entity:
+          domain: script
+    alarm_armed_away_script:
+      name: Armed Away Script
+      description: Script to run when the alarm is armed in away mode.
+      selector:
+        entity:
+          domain: script
+    alarm_armed_custom_bypass_script:
+      name: Armed Custom Bypass Script
+      description: Script to run when the alarm is armed with custom bypass.
+      selector:
+        entity:
+          domain: script
+    alarm_triggered_home_script:
+      name: Triggered Home Script
+      description: Script to run when the alarm is triggered in home mode.
+      selector:
+        entity:
+          domain: script
+    alarm_triggered_away_script:
+      name: Triggered Away Script
+      description: Script to run when the alarm is triggered in away mode.
+      selector:
+        entity:
+          domain: script
+    alarm_triggered_custom_bypass_script:
+      name: Triggered Custom Bypass Script
+      description: Script to run when the alarm is triggered with custom bypass.
+      selector:
+        entity:
+          domain: script
+
+trigger:
+  - platform: state
+    entity_id: !input alarmo_entity
+
+condition:
+  - condition: not
+    conditions:
+      - condition: state
+        entity_id: !input alarmo_entity
+        state: triggered
+
+action:
+  - choose:
+      - conditions:
+          - condition: state
+            entity_id: !input alarmo_entity
+            state: arming
+        sequence:
+          - service: timer.start
+            data:
+              duration: "00:01"
+            target:
+              entity_id: !input arming_timer
+          - service: script.turn_on
+            target:
+              entity_id: !input alarm_arming_script
+      - conditions:
+          - condition: state
+            entity_id: !input alarmo_entity
+            state: disarmed
+        sequence:
+          - service: timer.finish
+            target:
+              entity_id: !input arming_timer
+          - service: script.turn_on
+            target:
+              entity_id: !input alarm_disarmed_script
+          - service: script.turn_off
+            target:
+              entity_id:
+                - !input alarm_triggered_home_script
+                - !input alarm_triggered_away_script
+                - !input alarm_triggered_custom_bypass_script
+      - conditions:
+          - condition: state
+            entity_id: !input alarmo_entity
+            state: armed_home
+        sequence:
+          - service: timer.finish
+            target:
+              entity_id: !input arming_timer
+          - service: script.turn_on
+            target:
+              entity_id: !input alarm_armed_home_script
+          - repeat:
+              sequence: []
+              while:
+                - condition: not
+                  conditions:
+                    - condition: state
+                      entity_id: !input alarmo_entity
+                      state: triggered
+          - service: script.turn_on
+            target:
+              entity_id: !input alarm_triggered_home_script
+      - conditions:
+          - condition: state
+            entity_id: !input alarmo_entity
+            state: armed_away
+        sequence:
+          - service: timer.finish
+            target:
+              entity_id: !input arming_timer
+          - service: script.turn_on
+            target:
+              entity_id: !input alarm_armed_away_script
+          - repeat:
+              sequence: []
+              while:
+                - condition: not
+                  conditions:
+                    - condition: state
+                      entity_id: !input alarmo_entity
+                      state: triggered
+          - service: script.turn_on
+            target:
+              entity_id: !input alarm_triggered_away_script
+      - conditions:
+          - condition: state
+            entity_id: !input alarmo_entity
+            state: armed_custom_bypass
+        sequence:
+          - service: timer.finish
+            target:
+              entity_id: !input arming_timer
+          - service: script.turn_on
+            target:
+              entity_id: !input alarm_armed_custom_bypass_script
+          - repeat:
+              sequence: []
+              while:
+                - condition: not
+                  conditions:
+                    - condition: state
+                      entity_id: !input alarmo_entity
+                      state: triggered
+          - service: script.turn_on
+            target:
+              entity_id: !input alarm_triggered_custom_bypass_script
+
+mode: restart
