@@ -5,9 +5,9 @@ blueprint:
   description: Automation for handling Alarmo panel states with timer actions, scripts, and triggered actions.
   domain: automation
   input:
-    alarmo_entity:
-      name: Alarmo Panel
-      description: The Alarmo control panel to monitor.
+    alarm_entity:
+      name: Alarm Panel
+      description: The Alarm control panel to monitor.
       selector:
         entity:
           domain: alarm_control_panel
@@ -68,20 +68,20 @@ blueprint:
 
 trigger:
   - platform: state
-    entity_id: !input alarmo_entity
+    entity_id: !input alarm_entity
 
 condition:
   - condition: not
     conditions:
       - condition: state
-        entity_id: !input alarmo_entity
+        entity_id: !input alarm_entity
         state: triggered
 
 action:
   - choose:
       - conditions:
           - condition: state
-            entity_id: !input alarmo_entity
+            entity_id: !input alarm_entity
             state: arming
         sequence:
           - service: timer.start
@@ -94,7 +94,7 @@ action:
               entity_id: !input alarm_arming_script
       - conditions:
           - condition: state
-            entity_id: !input alarmo_entity
+            entity_id: !input alarm_entity
             state: disarmed
         sequence:
           - service: timer.finish
@@ -111,7 +111,7 @@ action:
                 - !input alarm_triggered_custom_bypass_script
       - conditions:
           - condition: state
-            entity_id: !input alarmo_entity
+            entity_id: !input alarm_entity
             state: armed_home
         sequence:
           - service: timer.finish
@@ -126,14 +126,14 @@ action:
                 - condition: not
                   conditions:
                     - condition: state
-                      entity_id: !input alarmo_entity
+                      entity_id: !input alarm_entity
                       state: triggered
           - service: script.turn_on
             target:
               entity_id: !input alarm_triggered_home_script
       - conditions:
           - condition: state
-            entity_id: !input alarmo_entity
+            entity_id: !input alarm_entity
             state: armed_away
         sequence:
           - service: timer.finish
@@ -148,14 +148,14 @@ action:
                 - condition: not
                   conditions:
                     - condition: state
-                      entity_id: !input alarmo_entity
+                      entity_id: !input alarm_entity
                       state: triggered
           - service: script.turn_on
             target:
               entity_id: !input alarm_triggered_away_script
       - conditions:
           - condition: state
-            entity_id: !input alarmo_entity
+            entity_id: !input alarm_entity
             state: armed_custom_bypass
         sequence:
           - service: timer.finish
@@ -170,7 +170,7 @@ action:
                 - condition: not
                   conditions:
                     - condition: state
-                      entity_id: !input alarmo_entity
+                      entity_id: !input alarm_entity
                       state: triggered
           - service: script.turn_on
             target:
